@@ -1,0 +1,93 @@
+spring:
+  application:
+    name: stockmind-backend
+
+  # ================================
+  # BANCO DE DADOS
+  # ================================
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/stockmind}
+    username: ${DB_USERNAME:stockmind}
+    password: ${DB_PASSWORD:stockmind}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # ================================
+  # FLYWAY
+  # ================================
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  # ================================
+  # REDIS
+  # ================================
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+  # ================================
+  # RABBITMQ
+  # ================================
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:stockmind}
+    password: ${RABBITMQ_PASSWORD:stockmind}
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3000
+          max-attempts: 3
+          multiplier: 2.0
+
+# ================================
+# SERVER
+# ================================
+server:
+  port: 8080
+
+# ================================
+# ACTUATOR / OBSERVABILIDADE
+# ================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus, metrics
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# ================================
+# STOCKMIND — CONFIGURAÇÕES PRÓPRIAS
+# ================================
+stockmind:
+  scheduler:
+    nightly-forecast:
+      cron: "0 0 1 * * *"   # Todo dia às 01:00 AM
+  rabbitmq:
+    exchange: stockmind.intelligence.exchange
+    queues:
+      nightly-forecast-trigger: queue.nightly.forecast.trigger
+      forecast-result: queue.forecast.result
+      purchase-recommendation: queue.purchase.recommendation
+    dead-letter:
+      exchange: stockmind.dlx.exchange
+      queue: queue.dead.letter

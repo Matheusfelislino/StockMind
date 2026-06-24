@@ -1,0 +1,59 @@
+# ================================
+# PERFIL DE DESENVOLVIMENTO LOCAL
+# Ativa com: -Dspring.profiles.active=dev
+# ================================
+
+spring:
+
+  # ================================
+  # BANCO DE DADOS
+  # ================================
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stockmind
+    username: stockmind
+    password: stockmind
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # ================================
+  # REDIS
+  # ================================
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+
+  # ================================
+  # RABBITMQ
+  # ================================
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: stockmind
+    password: stockmind
+
+# ================================
+# LOGS — MAIS VERBOSO EM DEV
+# ================================
+logging:
+  level:
+    com.stockmind: DEBUG
+    org.springframework.amqp: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+  pattern:
+    console: "%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# ================================
+# ACTUATOR — TUDO ABERTO EM DEV
+# ================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
