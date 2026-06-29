@@ -115,9 +115,7 @@ A IA sugere ordens de compra com quantidade, justificativa e impacto financeiro 
 
 ---
 
-## Como Rodar Localmente
-
-> Em breve — as instruções serão adicionadas conforme o projeto evoluir.
+## ⚙️ Como Rodar Localmente
 
 ### Pré-requisitos
 
@@ -130,14 +128,14 @@ A IA sugere ordens de compra com quantidade, justificativa e impacto financeiro 
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/stockmind.git
-cd stockmind
+git clone https://github.com/Matheusfelislino/StockMind.git
+cd StockMind
 ```
 
 ### 2. Suba a infraestrutura
 
 ```bash
-docker-compose up -d
+docker-compose up -d postgres redis rabbitmq
 ```
 
 | Serviço | Porta local |
@@ -151,15 +149,17 @@ docker-compose up -d
 
 ```bash
 cd backend
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
+
+Acesse: http://localhost:8080/actuator/health
 
 ### 4. Suba o AI Engine
 
 ```bash
 cd ai-engine
 pip install -r requirements.txt
-python app/main.py
+python -m app.main
 ```
 
 ### 5. Suba o frontend
@@ -170,12 +170,13 @@ npm install
 npm run dev
 ```
 
-### 6. Acesse
+Acesse: http://localhost:3000
 
-- **Dashboard:** `http://localhost:3000`
-- **API:** `http://localhost:8080/api/v1`
-- **Health:** `http://localhost:8080/actuator/health`
-- **RabbitMQ UI:** `http://localhost:15672`
+### 6. Rodar tudo com Docker (produção local)
+
+```bash
+docker-compose up -d
+```
 
 ---
 
@@ -192,19 +193,25 @@ stockmind/
 
 ---
 
-## Roadmap
+## 🗺️ Roadmap
 
 | Épico | Status |
 |---|---|
 | Planejamento de arquitetura e domínio | ✅ Concluído |
-| Schema do banco de dados — Flyway migrations | 🔄 Em andamento |
-| Entidades JPA + Repositories (Java) | ⏳ Pendente |
-| APIs REST + RabbitMQ Config | ⏳ Pendente |
-| AI Engine — Prophet + Recomendações | ⏳ Pendente |
-| Dashboard Next.js com KPIs em tempo real | ⏳ Pendente |
+| Schema do banco de dados — Flyway migrations | ✅ Concluído |
+| Entidades JPA + Repositories + DTOs | ✅ Concluído |
+| Services + Controllers + Dashboard KPIs | ✅ Concluído |
+| RabbitMQ Config + Redis Config | ✅ Concluído |
+| Publisher + Consumers + Scheduler | ✅ Concluído |
+| Security Config + CORS | ✅ Concluído |
+| Docker + docker-compose | ✅ Concluído |
+| AI Engine — Prophet + Recomendações | ✅ Concluído |
+| Dashboard Next.js com KPIs em tempo real | ✅ Concluído |
+| Dados de teste e validação do fluxo | ✅ Concluído |
 | Simulador de Cenários | 🔒 Futuro |
 | Agente Executivo LLM | 🔒 Futuro |
 | Automação de Compra 100% Autônoma | 🔒 Futuro |
+| Autenticação JWT | 🔒 Futuro |
 
 ---
 
