@@ -36,7 +36,7 @@ public class Product {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "curve_category", nullable = false, length = 1)
+    @Column(name = "curve_category", nullable = false, columnDefinition = "varchar(1)")
     private CurveCategory curveCategory;
 
     @Column(name = "cost_price", nullable = false, precision = 10, scale = 2)
