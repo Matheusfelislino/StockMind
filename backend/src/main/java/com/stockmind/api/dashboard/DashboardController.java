@@ -53,6 +53,7 @@ public class DashboardController {
 
         return ResponseEntity.ok(ExpirationRiskKPI.builder()
                 .totalLotsAtRisk(criticalLots.size())
+                .totalQuantityAtRisk(totalAtRisk)
                 .criticalLots(criticalLots)
                 .build());
     }
@@ -149,6 +150,7 @@ public class DashboardController {
     @Builder
     public static class ExpirationRiskKPI {
         private int totalLotsAtRisk;
+        private BigDecimal totalQuantityAtRisk;
         private List<InventoryLotResponseDTO> criticalLots;
     }
 
